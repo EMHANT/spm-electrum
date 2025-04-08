@@ -193,6 +193,8 @@ struct SpriteTemplate
 // then later dereferenced after being freed. Usually this won't
 // be visible in-game, but this is (part of) what causes the item
 // icon palette to flicker when changing items in the bag.
+
+// offset comments may be inaccurate once custom fields come into play, this should remain until I've gone through and updated them - angry
 struct Sprite
 {
     /*0x00*/ struct OamData oam;
@@ -205,6 +207,7 @@ struct Sprite
 
     /*0x20*/ s16 x, y;
     /*0x24*/ s16 x2, y2;
+    /*0x24*/ s16 x3, y3;
     /*0x28*/ s8 centerToCornerVecX;
     /*0x29*/ s8 centerToCornerVecY;
 
@@ -217,6 +220,8 @@ struct Sprite
 
     // general purpose data fields
     /*0x2E*/ s16 data[8];
+    /*0x2E*/ u8 parent;
+    /*0x2E*/ u8 children[4];
 
     /*0x3E*/ u16 inUse:1;                   //1
              u16 coordOffsetEnabled:1;      //2
@@ -273,8 +278,11 @@ void ResetSpriteData(void);
 void AnimateSprites(void);
 void BuildOamBuffer(void);
 u32 CreateSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
+u32 CreateSpriteRev(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
+u32 CreateBigSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
 u32 CreateSpriteAtEnd(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
 u32 CreateInvisibleSprite(void (*callback)(struct Sprite *));
+u32 CreateBigInvisibleSprite(void (*callback)(struct Sprite *));
 u32 CreateSpriteAndAnimate(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority);
 void DestroySprite(struct Sprite *sprite);
 void ResetOamRange(u32 start, u32 end);
@@ -303,9 +311,11 @@ void FreeOamMatrix(u8 matrixNum);
 void InitSpriteAffineAnim(struct Sprite *sprite);
 void SetOamMatrixRotationScaling(u8 matrixNum, s16 xScale, s16 yScale, u16 rotation);
 u16 LoadSpriteSheet(const struct SpriteSheet *sheet);
+u16 LoadSpriteSheetRev(const struct SpriteSheet *sheet);
 u16 LoadSpriteSheetByTemplate(const struct SpriteTemplate *template, u32 frame, s32 offset);
 void LoadSpriteSheets(const struct SpriteSheet *sheets);
 s16 AllocSpriteTiles(u16 tileCount);
+s16 AllocSpriteTilesRev(u16 tileCount);
 u16 AllocTilesForSpriteSheet(struct SpriteSheet *sheet);
 void AllocTilesForSpriteSheets(struct SpriteSheet *sheets);
 void LoadTilesForSpriteSheet(const struct SpriteSheet *sheet);

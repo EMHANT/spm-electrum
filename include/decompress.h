@@ -11,9 +11,11 @@ void LZDecompressVram(const u32 *src, void *dest);
 u32 IsLZ77Data(const void *ptr, u32 minSize, u32 maxSize);
 
 u32 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src);
+u32 LoadCompressedSpriteSheetRev(const struct CompressedSpriteSheet *src);
 u32 LoadCompressedSpriteSheetByTemplate(const struct SpriteTemplate *template, s32 offset);
 u32 LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet *src, void *buffer);
 bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet *src);
+bool8 LoadCompressedSpriteSheetUsingHeapRev(const struct CompressedSpriteSheet *src);
 
 u32 LoadCompressedSpritePalette(const struct CompressedSpritePalette *src);
 u32 LoadCompressedSpritePaletteWithTag(const u32 *pal, u16 tag);
