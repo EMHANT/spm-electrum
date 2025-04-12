@@ -3019,7 +3019,7 @@ static void CreateJumpMonSprite(struct PokemonJumpGfx *jumpGfx, struct PokemonJu
 
         spriteTemplate.tileTag += multiplayerId;
         spriteTemplate.paletteTag += multiplayerId;
-        spriteId = CreateSprite(&spriteTemplate, x, y, subpriority);
+        spriteId = CreateBigSprite(&spriteTemplate, x, y - 8, subpriority);
         if (spriteId != MAX_SPRITES)
         {
             jumpGfx->monSprites[multiplayerId] = &gSprites[spriteId];

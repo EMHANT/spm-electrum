@@ -578,7 +578,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
     battlerId = gTasks[taskId].tBattler;
     ballId = GetBattlerPokeballItemId(battlerId);
     LoadBallGfx(ballId);
-    ballSpriteId = CreateSprite(&gBallSpriteTemplates[ballId], 32, 80, 29);
+    ballSpriteId = CreateSpriteRev(&gBallSpriteTemplates[ballId], 32, 80, 29);
     gSprites[ballSpriteId].data[0] = 0x80;
     gSprites[ballSpriteId].data[1] = 0;
     gSprites[ballSpriteId].data[7] = throwCaseId;
@@ -1278,7 +1278,7 @@ void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, 
 
     LoadCompressedSpriteSheetUsingHeap(&gBallSpriteSheets[BALL_POKE]);
     LoadCompressedSpritePaletteUsingHeap(&gBallSpritePalettes[BALL_POKE]);
-    spriteId = CreateSprite(&gBallSpriteTemplates[BALL_POKE], x, y, subpriority);
+    spriteId = CreateSpriteRev(&gBallSpriteTemplates[BALL_POKE], x, y, subpriority);
 
     gSprites[spriteId].sMonSpriteId = monSpriteId;
     gSprites[spriteId].sFinalMonX = gSprites[monSpriteId].x;
@@ -1390,7 +1390,7 @@ u8 CreateTradePokeballSprite(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPri
 
     LoadCompressedSpriteSheetUsingHeap(&gBallSpriteSheets[BALL_POKE]);
     LoadCompressedSpritePaletteUsingHeap(&gBallSpritePalettes[BALL_POKE]);
-    spriteId = CreateSprite(&gBallSpriteTemplates[BALL_POKE], x, y, subPriority);
+    spriteId = CreateSpriteRev(&gBallSpriteTemplates[BALL_POKE], x, y, subPriority);
     gSprites[spriteId].sMonSpriteId = monSpriteId;
     gSprites[spriteId].sDelay = delay;
     gSprites[spriteId].sMonPalNum = monPalNum;
@@ -1556,7 +1556,7 @@ void LoadBallGfx(u8 ballId)
 
     if (GetSpriteTileStartByTag(gBallSpriteSheets[ballId].tag) == 0xFFFF)
     {
-        LoadCompressedSpriteSheetUsingHeap(&gBallSpriteSheets[ballId]);
+        LoadCompressedSpriteSheetUsingHeapRev(&gBallSpriteSheets[ballId]);
         LoadCompressedSpritePaletteUsingHeap(&gBallSpritePalettes[ballId]);
     }
 

@@ -1222,7 +1222,7 @@ static void UpdateMonPic(u8 loadId)
         spritePal.data = sMenu->partyPalettes[loadId];
         sMenu->curMonPalette = LoadSpritePalette(&spritePal);
         sMenu->curMonSheet = LoadSpriteSheet(&spriteSheet);
-        spriteId = CreateSprite(&spriteTemplate, 38, 104, 0);
+        spriteId = CreateBigSprite(&spriteTemplate, 30, 104, 0);
         sMenu->curMonSpriteId = spriteId;
         if (spriteId == MAX_SPRITES)
         {

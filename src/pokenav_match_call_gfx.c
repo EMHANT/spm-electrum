@@ -1242,7 +1242,7 @@ static void SpriteCB_OptionsCursor(struct Sprite *sprite)
 
 static struct Sprite *CreateTrainerPicSprite(void)
 {
-    u8 spriteId = CreateSprite(&sTrainerPicSpriteTemplate, 44, 104, 6);
+    u8 spriteId = CreateBigSprite(&sTrainerPicSpriteTemplate, 44, 96, 6);
     return &gSprites[spriteId];
 }
 

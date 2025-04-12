@@ -6,6 +6,7 @@
 extern const u8 gMiscBlank_Gfx[]; // unused in Emerald
 
 u8 CreateInvisibleSpriteWithCallback(void (*)(struct Sprite *));
+u8 CreateBigInvisibleSpriteWithCallback(void (*)(struct Sprite *));
 void StoreWordInTwoHalfwords(u16 *, u32);
 void LoadWordFromTwoHalfwords(u16 *, u32 *);
 int CountTrailingZeroBits(u32 value);

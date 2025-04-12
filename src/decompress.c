@@ -49,10 +49,29 @@ static inline u32 DoLoadCompressedSpriteSheet(const struct CompressedSpriteSheet
     return LoadSpriteSheet(&dest);
 }
 
+static inline u32 DoLoadCompressedSpriteSheetRev(const struct CompressedSpriteSheet *src, void *buffer)
+{
+    struct SpriteSheet dest;
+
+    dest.data = buffer;
+    dest.size = src->size;
+    dest.tag = src->tag;
+    return LoadSpriteSheetRev(&dest);
+}
+
 u32 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
 {
     void *buffer = malloc_and_decompress(src->data, NULL);
     u32 ret = DoLoadCompressedSpriteSheet(src, buffer);
+    Free(buffer);
+
+    return ret;
+}
+
+u16 LoadCompressedSpriteSheetRev(const struct CompressedSpriteSheet *src)
+{
+    void *buffer = malloc_and_decompress(src->data, NULL);
+    u32 ret = DoLoadCompressedSpriteSheetRev(src, buffer);
     Free(buffer);
 
     return ret;
@@ -335,6 +354,23 @@ bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet *src
     dest.tag = src->tag;
 
     LoadSpriteSheet(&dest);
+    Free(buffer);
+    return FALSE;
+}
+
+bool8 LoadCompressedSpriteSheetUsingHeapRev(const struct CompressedSpriteSheet* src)
+{
+    struct SpriteSheet dest;
+    void* buffer;
+
+    buffer = AllocZeroed(src->data[0] >> 8);
+    LZ77UnCompWram(src->data, buffer);
+
+    dest.data = buffer;
+    dest.size = src->size;
+    dest.tag = src->tag;
+
+    LoadSpriteSheetRev(&dest);
     Free(buffer);
     return FALSE;
 }

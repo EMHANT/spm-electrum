@@ -266,7 +266,7 @@ void EvolutionScene(struct Pokemon *mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     SetMultiuseSpriteTemplateToPokemon(currSpecies, B_POSITION_OPPONENT_LEFT);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
-    sEvoStructPtr->preEvoSpriteId = id = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
+    sEvoStructPtr->preEvoSpriteId = id = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
     gSprites[id].callback = SpriteCallbackDummy_2;
     gSprites[id].oam.paletteNum = 1;
@@ -281,7 +281,7 @@ void EvolutionScene(struct Pokemon *mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, B_POSITION_OPPONENT_RIGHT);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
-    sEvoStructPtr->postEvoSpriteId = id = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
+    sEvoStructPtr->postEvoSpriteId = id = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
     gSprites[id].callback = SpriteCallbackDummy_2;
     gSprites[id].oam.paletteNum = 2;
     gSprites[id].invisible = TRUE;
@@ -358,7 +358,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, B_POSITION_OPPONENT_RIGHT);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
-    sEvoStructPtr->postEvoSpriteId = id = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
+    sEvoStructPtr->postEvoSpriteId = id = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
     gSprites[id].callback = SpriteCallbackDummy_2;
     gSprites[id].oam.paletteNum = 2;
@@ -434,7 +434,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
 
             SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, B_POSITION_OPPONENT_LEFT);
             gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
-            sEvoStructPtr->postEvoSpriteId = id = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
+            sEvoStructPtr->postEvoSpriteId = id = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
             gSprites[id].callback = SpriteCallbackDummy_2;
             gSprites[id].oam.paletteNum = 2;
@@ -493,7 +493,7 @@ void TradeEvolutionScene(struct Pokemon *mon, u16 postEvoSpecies, u8 preEvoSprit
 
     SetMultiuseSpriteTemplateToPokemon(postEvoSpecies, B_POSITION_OPPONENT_LEFT);
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
-    sEvoStructPtr->postEvoSpriteId = id = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
+    sEvoStructPtr->postEvoSpriteId = id = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
     gSprites[id].callback = SpriteCallbackDummy_2;
     gSprites[id].oam.paletteNum = 2;

@@ -2670,7 +2670,7 @@ void SpriteCB_FaintOpponentMon(struct Sprite *sprite)
         species = GetUnownSpeciesId(personality);
     yOffset = gSpeciesInfo[species].frontPicYOffset;
 
-    sprite->data[3] = 8 - yOffset / 8;
+    sprite->data[3] = 10 - yOffset / 8;
     sprite->data[4] = 1;
     sprite->callback = SpriteCB_AnimFaintOpponent;
 }
@@ -2693,6 +2693,11 @@ static void SpriteCB_AnimFaintOpponent(struct Sprite *sprite)
             u8 *dst = &gMonSpritesGfxPtr->spritesGfx[GetBattlerPosition(sprite->sBattler)][(sprite->data[3] << 8)];
 
             for (i = 0; i < 0x100; i++)
+                *(dst++) = 0;
+
+            dst = (u8 *)gMonSpritesGfxPtr->sprites[GetBattlerPosition(sprite->sBattler)] + 0xA00 + (sprite->data[3] << 6);
+
+            for (i = 0; i < 0x40; i++)
                 *(dst++) = 0;
 
             StartSpriteAnim(sprite, 0);
@@ -2859,7 +2864,8 @@ static void SpriteCB_BounceEffect(struct Sprite *sprite)
 {
     u8 bouncerSpriteId = sprite->sBouncerSpriteId;
     s32 index = sprite->sSinIndex;
-    s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude;
+    // s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude; // pre-80x80
+    s32 y = sprite->sSinIndex >> 7;
 
     gSprites[bouncerSpriteId].y2 = y;
     sprite->sSinIndex = (sprite->sSinIndex + sprite->sDelta) & 0xFF;

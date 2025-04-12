@@ -263,7 +263,7 @@ static void BattleIntroSlide1(u8 taskId)
             gTasks[taskId].data[2] -= 2;
 
         // Scanline settings have already been set in CB2_InitBattleInternal()
-        for (i = 0; i < DISPLAY_HEIGHT / 2; i++)
+        for (i = 0; i < ((DISPLAY_HEIGHT / 2) + 8); i++)
             gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = gTasks[taskId].data[2];
 
         for (; i < DISPLAY_HEIGHT; i++)
@@ -374,7 +374,7 @@ static void BattleIntroSlide2(u8 taskId)
             gTasks[taskId].data[2] -= 2;
 
         // Scanline settings have already been set in CB2_InitBattleInternal()
-        for (i = 0; i < DISPLAY_HEIGHT / 2; i++)
+        for (i = 0; i < ((DISPLAY_HEIGHT / 2) + 8); i++)
             gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = gTasks[taskId].data[2];
 
         for (; i < DISPLAY_HEIGHT; i++)
@@ -464,7 +464,7 @@ static void BattleIntroSlide3(u8 taskId)
             gTasks[taskId].data[2] -= 2;
 
         // Scanline settings have already been set in CB2_InitBattleInternal()
-        for (i = 0; i < DISPLAY_HEIGHT / 2; i++)
+        for (i = 0; i < ((DISPLAY_HEIGHT / 2) + 8); i++)
             gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = gTasks[taskId].data[2];
 
         for (; i < DISPLAY_HEIGHT; i++)
@@ -546,7 +546,7 @@ static void BattleIntroSlideLink(u8 taskId)
             gTasks[taskId].data[2] -= 2;
 
         // Scanline settings have already been set in CB2_InitBattleInternal()
-        for (i = 0; i < DISPLAY_HEIGHT / 2; i++)
+        for (i = 0; i < ((DISPLAY_HEIGHT / 2) + 8); i++)
             gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = gTasks[taskId].data[2];
 
         for (; i < DISPLAY_HEIGHT; i++)
@@ -642,13 +642,21 @@ void DrawBattlerOnBg(int bgId, u8 x, u8 y, u8 battlerPosition, u8 paletteId, u8 
 {
     int i, j;
     int offset = tilesOffset;
-    CpuCopy16(gMonSpritesGfxPtr->spritesGfx[battlerPosition], tiles, BG_SCREEN_SIZE);
-    LoadBgTiles(bgId, tiles, 0x1000, tilesOffset);
-    for (i = y; i < y + 8; i++)
+    CpuCopy16(gMonSpritesGfxPtr->spritesGfx[battlerPosition], tiles, 0xC80);
+    LoadBgTiles(bgId, tiles, 0x1900, tilesOffset);
+    for (i = y; i < y + 10; i++)
     {
         for (j = x; j < x + 8; j++)
         {
             tilemap[i * 32 + j] = offset | (paletteId << 12);
+            offset++;
+        }
+    }
+    for (i = y; i < y + 10; i++)
+    {
+        for (j = x; j < x + 2; j++)
+        {
+            tilemap[i * 32 + j + 8] = offset | (paletteId << 12);
             offset++;
         }
     }

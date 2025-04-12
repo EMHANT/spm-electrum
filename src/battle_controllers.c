@@ -2093,7 +2093,7 @@ void StartSendOutAnim(u32 battler, bool32 dontClearTransform, bool32 dontClearSu
         BattleLoadMonSpriteGfx(&party[gBattlerPartyIndexes[battler]], battler);
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(battler));
 
-    gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+    gBattlerSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                         GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2),
                                         GetBattlerSpriteDefault_Y(battler),
                                         GetBattlerSpriteSubpriority(battler));
@@ -2408,7 +2408,7 @@ void BtlController_HandleLoadMonSprite(u32 battler, void (*controllerCallback)(u
     BattleLoadMonSpriteGfx(&party[gBattlerPartyIndexes[battler]], battler);
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(battler));
 
-    gBattlerSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+    gBattlerSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                                GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2),
                                                GetBattlerSpriteDefault_Y(battler),
                                                GetBattlerSpriteSubpriority(battler));
@@ -2463,7 +2463,7 @@ void BtlController_HandleDrawTrainerPic(u32 battler, u32 trainerPicId, bool32 is
         SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(battler));
         if (subpriority == -1)
             subpriority = GetBattlerSpriteSubpriority(battler);
-        gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+        gBattleStruct->trainerSlideSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                                    xPos,
                                                    yPos,
                                                    subpriority);
@@ -2481,7 +2481,7 @@ void BtlController_HandleDrawTrainerPic(u32 battler, u32 trainerPicId, bool32 is
             SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(battler));
             if (subpriority == -1)
                 subpriority = GetBattlerSpriteSubpriority(battler);
-            gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+            gBattleStruct->trainerSlideSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                                              xPos,
                                                              yPos,
                                                              subpriority);
@@ -2497,7 +2497,7 @@ void BtlController_HandleDrawTrainerPic(u32 battler, u32 trainerPicId, bool32 is
             SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
             if (subpriority == -1)
                 subpriority = GetBattlerSpriteSubpriority(battler);
-            gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+            gBattleStruct->trainerSlideSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                                              xPos,
                                                              yPos,
                                                              subpriority);
@@ -2523,7 +2523,7 @@ void BtlController_HandleTrainerSlide(u32 battler, u32 trainerPicId)
     {
         DecompressTrainerBackPic(trainerPicId, battler);
         SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(battler));
-        gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate,
+        gBattleStruct->trainerSlideSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate,
                                                          80,
                                                          (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80,
                                                          30);
@@ -2537,7 +2537,7 @@ void BtlController_HandleTrainerSlide(u32 battler, u32 trainerPicId)
     {
         DecompressTrainerFrontPic(trainerPicId, battler);
         SetMultiuseSpriteTemplateToTrainerFront(trainerPicId, GetBattlerPosition(battler));
-        gBattleStruct->trainerSlideSpriteIds[battler] = CreateSprite(&gMultiuseSpriteTemplate, 176, 40, 0);
+        gBattleStruct->trainerSlideSpriteIds[battler] = CreateBigSprite(&gMultiuseSpriteTemplate, 176, 40, 0);
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].oam.affineParam = trainerPicId;
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].oam.paletteNum = IndexOfSpritePaletteTag(gTrainerSprites[trainerPicId].palette.tag);
         gSprites[gBattleStruct->trainerSlideSpriteIds[battler]].x2 = 96;

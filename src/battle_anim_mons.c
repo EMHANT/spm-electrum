@@ -17,6 +17,10 @@
 #include "util.h"
 #include "constants/battle_anim.h"
 
+#define OAM_MATRIX_COUNT 32
+
+extern struct ObjAffineSrcData rawMatrix[];
+
 extern const struct OamData gOamData_AffineNormal_ObjNormal_64x64;
 
 static void AnimTranslateLinear_WithFollowup_SetCornerVecX(struct Sprite *sprite);
@@ -1177,16 +1181,15 @@ void InitAnimFastLinearTranslationWithSpeedAndPos(struct Sprite *sprite)
 void SetSpriteRotScale(u8 spriteId, s16 xScale, s16 yScale, u16 rotation)
 {
     int i;
-    struct ObjAffineSrcData src;
     struct OamMatrix matrix;
 
-    src.xScale = xScale;
-    src.yScale = yScale;
-    src.rotation = rotation;
+    rawMatrix[i].xScale = xScale;
+    rawMatrix[i].yScale = yScale;
+    rawMatrix[i].rotation = rotation;
     if (ShouldRotScaleSpeciesBeFlipped())
-        src.xScale = -src.xScale;
+        rawMatrix[i].xScale = -rawMatrix[i].xScale;
     i = gSprites[spriteId].oam.matrixNum;
-    ObjAffineSet(&src, &matrix, 1, 2);
+    ObjAffineSet(&rawMatrix[i], &matrix, 1, 2);
     gOamMatrices[i].a = matrix.a;
     gOamMatrices[i].b = matrix.b;
     gOamMatrices[i].c = matrix.c;
@@ -1248,7 +1251,6 @@ void SetBattlerSpriteYOffsetFromRotation(u8 spriteId)
 void TrySetSpriteRotScale(struct Sprite *sprite, bool8 recalcCenterVector, s16 xScale, s16 yScale, u16 rotation)
 {
     int i;
-    struct ObjAffineSrcData src;
     struct OamMatrix matrix;
 
     if (sprite->oam.affineMode & 1)
@@ -1256,13 +1258,13 @@ void TrySetSpriteRotScale(struct Sprite *sprite, bool8 recalcCenterVector, s16 x
         sprite->affineAnimPaused = TRUE;
         if (recalcCenterVector)
             CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
-        src.xScale = xScale;
-        src.yScale = yScale;
-        src.rotation = rotation;
+        rawMatrix[i].xScale = xScale;
+        rawMatrix[i].yScale = yScale;
+        rawMatrix[i].rotation = rotation;
         if (ShouldRotScaleSpeciesBeFlipped())
-            src.xScale = -src.xScale;
+            rawMatrix[i].xScale = -rawMatrix[i].xScale;
         i = sprite->oam.matrixNum;
-        ObjAffineSet(&src, &matrix, 1, 2);
+        ObjAffineSet(&rawMatrix[i], &matrix, 1, 2);
         gOamMatrices[i].a = matrix.a;
         gOamMatrices[i].b = matrix.b;
         gOamMatrices[i].c = matrix.c;
@@ -1554,6 +1556,8 @@ s16 CloneBattlerSpriteWithBlend(u8 animBattler)
 {
     u16 i;
     u8 spriteId = GetAnimBattlerSpriteId(animBattler);
+    u8 ret = 0;
+    u8 ic;
 
     if (spriteId != SPRITE_NONE)
     {
@@ -1561,10 +1565,27 @@ s16 CloneBattlerSpriteWithBlend(u8 animBattler)
         {
             if (!gSprites[i].inUse)
             {
-                gSprites[i] = gSprites[spriteId];
-                gSprites[i].oam.objMode = ST_OAM_OBJ_BLEND;
-                gSprites[i].invisible = FALSE;
-                return i;
+                if(++ret == 5)
+                {
+                    i -= 4;
+                    gSprites[i] = gSprites[spriteId];
+                    gSprites[i].oam.objMode = ST_OAM_OBJ_BLEND;
+                    gSprites[i].invisible = FALSE;
+                    gSprites[i].parent = 0xFF;
+                    for(ic = 0; ic < 4; ic++)
+                    {
+                        gSprites[i + ic + 1] = gSprites[gSprites[spriteId].children[ic]];
+                        gSprites[i + ic + 1].oam.objMode = ST_OAM_OBJ_BLEND;
+                        gSprites[i + ic + 1].invisible = FALSE;
+                        gSprites[i].children[ic] = i + ic + 1;
+                        gSprites[i + ic + 1].parent = i;
+                    }
+                    return i;
+                }
+                else
+                {
+                    ret = 0;
+                }
             }
         }
     }
@@ -2172,12 +2193,35 @@ void SetAverageBattlerPositions(u8 battlerId, bool8 respectMonPicOffsets, s16 *x
 
 u8 CreateInvisibleSpriteCopy(int battlerId, u8 spriteId, int species)
 {
-    u8 newSpriteId = CreateInvisibleSpriteWithCallback(SpriteCallbackDummy);
+    u8 newSpriteId = CreateBigInvisibleSpriteWithCallback(SpriteCallbackDummy);
+    u8 tempChildren [4];
+    u8 ic;
+
+    for(ic = 0; ic < 4; ic++)
+        tempChildren[ic] = gSprites[newSpriteId].children[ic];
+    
     gSprites[newSpriteId] = gSprites[spriteId];
     gSprites[newSpriteId].usingSheet = TRUE;
     gSprites[newSpriteId].oam.priority = 0;
     gSprites[newSpriteId].oam.objMode = ST_OAM_OBJ_WINDOW;
     gSprites[newSpriteId].oam.tileNum = gSprites[spriteId].oam.tileNum;
+
+    for(ic = 0; ic < 4; ic++)
+        gSprites[newSpriteId].children[ic] = tempChildren[ic];
+    
+    gSprites[gSprites[newSpriteId].children[0]].sheetTileStart = gSprites[newSpriteId].sheetTileStart + 0x30;
+    gSprites[gSprites[newSpriteId].children[0]].oam.tileNum = gSprites[newSpriteId].oam.tileNum + 0x30;
+    gSprites[gSprites[newSpriteId].children[0]].images = gSprites[newSpriteId].images + 0x600;
+    gSprites[gSprites[newSpriteId].children[1]].sheetTileStart = gSprites[newSpriteId].sheetTileStart + 0x50;
+    gSprites[gSprites[newSpriteId].children[1]].oam.tileNum = gSprites[newSpriteId].oam.tileNum + 0x50;
+    gSprites[gSprites[newSpriteId].children[1]].images = gSprites[newSpriteId].images + 0xA00;
+    gSprites[gSprites[newSpriteId].children[2]].sheetTileStart = gSprites[newSpriteId].sheetTileStart + 0x58;
+    gSprites[gSprites[newSpriteId].children[2]].oam.tileNum = gSprites[newSpriteId].oam.tileNum + 0x58;
+    gSprites[gSprites[newSpriteId].children[2]].images = gSprites[newSpriteId].images + 0xB00;
+    gSprites[gSprites[newSpriteId].children[3]].sheetTileStart = gSprites[newSpriteId].sheetTileStart + 0x5C;
+    gSprites[gSprites[newSpriteId].children[3]].oam.tileNum = gSprites[newSpriteId].oam.tileNum + 0x5C;
+    gSprites[gSprites[newSpriteId].children[3]].images = gSprites[newSpriteId].images + 0xB80;
+
     gSprites[newSpriteId].callback = SpriteCallbackDummy;
     return newSpriteId;
 }

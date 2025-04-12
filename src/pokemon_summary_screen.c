@@ -407,7 +407,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
 {
     [PSS_LABEL_WINDOW_POKEMON_INFO_TITLE] = {
         .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 6,
         .tilemapTop = 0,
         .width = 11,
         .height = 2,
@@ -416,7 +416,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
     },
     [PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE] = {
         .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 6,
         .tilemapTop = 0,
         .width = 11,
         .height = 2,
@@ -425,7 +425,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
     },
     [PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE] = {
         .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 6,
         .tilemapTop = 0,
         .width = 11,
         .height = 2,
@@ -434,7 +434,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
     },
     [PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE] = {
         .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 6,
         .tilemapTop = 0,
         .width = 11,
         .height = 2,
@@ -561,7 +561,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
     [PSS_LABEL_WINDOW_PORTRAIT_DEX_NUMBER] = {
         .bg = 0,
         .tilemapLeft = 1,
-        .tilemapTop = 2,
+        .tilemapTop = 0,
         .width = 5,
         .height = 2,
         .paletteNum = 7,
@@ -2760,7 +2760,7 @@ static void DrawPagination(void) // Updates the pagination dots at the top of th
             tilemap[j + 2 * PSS_PAGE_COUNT + 1] = 0x59;
         }
     }
-    CopyToBgTilemapBufferRect_ChangePalette(3, tilemap, 11, 0, PSS_PAGE_COUNT * 2, 2, 16);
+    CopyToBgTilemapBufferRect_ChangePalette(3, tilemap, 17, 0, PSS_PAGE_COUNT * 2, 2, 16);
     ScheduleBgCopyTilemapToVram(3);
     Free(tilemap);
 }
@@ -3432,6 +3432,7 @@ static void Task_PrintInfoPage(u8 taskId)
         PrintMonTrainerMemo();
         break;
     case 7:
+        sMonSummaryScreen->markingsSprite->invisible = FALSE;
         DestroyTask(taskId);
         return;
     }
@@ -4139,7 +4140,7 @@ static void PrintNewMoveDetailsOrCancelText(void)
 
     if (sMonSummaryScreen->newMove == MOVE_NONE)
     {
-        PrintTextOnWindow(windowId1, gText_Cancel, 0, 65, 0, 1);
+        PrintTextOnWindow(windowId1, gText_Exit, 0, 65, 0, 1);
     }
     else
     {
@@ -4220,6 +4221,7 @@ static void HidePageSpecificSprites(void)
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
     }
+    sMonSummaryScreen->markingsSprite->invisible = TRUE;
 }
 
 static void SetTypeIcons(void)
@@ -4431,7 +4433,7 @@ static void PlayMonCry(void)
 static u8 CreateMonSprite(struct Pokemon *unused)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 40, 64, 5);
+    u8 spriteId = CreateBigSprite(&gMultiuseSpriteTemplate, 40, 56, 5);
 
     FreeSpriteOamMatrix(&gSprites[spriteId]);
     gSprites[spriteId].data[0] = summary->species2;
@@ -4509,9 +4511,10 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
     if (sprite != NULL)
     {
         StartSpriteAnim(sprite, GetMonData(mon, MON_DATA_MARKINGS));
-        sMonSummaryScreen->markingsSprite->x = 60;
-        sMonSummaryScreen->markingsSprite->y = 26;
+        sMonSummaryScreen->markingsSprite->x = 223;
+        sMonSummaryScreen->markingsSprite->y = 28;
         sMonSummaryScreen->markingsSprite->oam.priority = 1;
+        sMonSummaryScreen->markingsSprite->invisible = (sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO);
     }
 }
 
@@ -4689,7 +4692,7 @@ static inline void ShowUtilityPrompt(s16 mode)
         if (ShouldShowRename())
             promptText = gText_Rename;
         else
-            promptText = gText_Cancel2;
+            promptText = gText_Exit2;
     }
     else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
     {

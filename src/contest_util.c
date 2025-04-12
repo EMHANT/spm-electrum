@@ -901,7 +901,7 @@ static void Task_ShowWinnerMonBanner(u8 taskId)
         LoadCompressedSpritePaletteWithTag(GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality), species);
         SetMultiuseSpriteTemplateToPokemon(species, B_POSITION_OPPONENT_LEFT);
         gMultiuseSpriteTemplate.paletteTag = species;
-        spriteId = CreateSprite(&gMultiuseSpriteTemplate, DISPLAY_WIDTH + 32, DISPLAY_HEIGHT / 2, 10);
+        spriteId = CreateBigSprite(&gMultiuseSpriteTemplate, DISPLAY_WIDTH + 32, DISPLAY_HEIGHT / 2, 10);
         gSprites[spriteId].data[1] = species;
         gSprites[spriteId].oam.priority = 0;
         gSprites[spriteId].callback = SpriteCB_WinnerMonSlideIn;
@@ -2581,7 +2581,7 @@ void ShowContestEntryMonPic(void)
         LoadCompressedSpritePaletteWithTag(GetMonSpritePalFromSpeciesAndPersonality(species, isShiny, personality), species);
         SetMultiuseSpriteTemplateToPokemon(species, B_POSITION_OPPONENT_LEFT);
         gMultiuseSpriteTemplate.paletteTag = species;
-        spriteId = CreateSprite(&gMultiuseSpriteTemplate, (left + 1) * 8 + 32, (top * 8) + 40, 0);
+        spriteId = CreateBigSprite(&gMultiuseSpriteTemplate, (left + 1) * 8 + 32, (top * 8) + 40, 0);
 
         if (gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)
         {

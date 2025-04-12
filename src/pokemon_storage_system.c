@@ -943,6 +943,7 @@ static const u32 sWaveform_Gfx[]             = INCBIN_U32("graphics/pokemon_stor
 static const u16 sUnused_Pal[]               = INCBIN_U16("graphics/pokemon_storage/unused.gbapal");
 static const u16 sTextWindows_Pal[]          = INCBIN_U16("graphics/pokemon_storage/text_windows.gbapal");
 
+// there's some data changed around here that is unclear due to lack of proper structure here in the older pokeemerald - angry
 static const struct WindowTemplate sWindowTemplates[] =
 {
     // The panel below the currently displayed Pokémon
@@ -3860,7 +3861,7 @@ static void InitPalettesAndSprites(void)
     SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1) | BGCNT_CHARBASE(1) | BGCNT_16COLOR | BGCNT_SCREENBASE(30));
     CreateDisplayMonSprite();
     CreateMarkingComboSprite();
-    CreateWaveformSprites();
+    // CreateWaveformSprites();
     RefreshDisplayMonData();
 }
 

@@ -8,8 +8,8 @@
 
 #define MAX_TRAINER_ITEMS 4
 
-#define TRAINER_PIC_WIDTH 64
-#define TRAINER_PIC_HEIGHT 64
+#define TRAINER_PIC_WIDTH 80
+#define TRAINER_PIC_HEIGHT 80
 #define TRAINER_PIC_SIZE (TRAINER_PIC_WIDTH * TRAINER_PIC_HEIGHT / 2)
 
 // Red and Leaf's back pics have 5 frames, but this is presumably irrelevant in the places this is used.

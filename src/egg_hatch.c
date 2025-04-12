@@ -43,7 +43,7 @@
 
 #define PALTAG_EGG       54321
 
-#define EGG_X (DISPLAY_WIDTH / 2)
+#define EGG_X (DISPLAY_WIDTH / 2 - 8)
 #define EGG_Y (DISPLAY_HEIGHT / 2 - 5)
 
 struct EggHatchData
@@ -262,7 +262,7 @@ static const struct WindowTemplate sWinTemplates_EggHatch[] =
     {
         .bg = 0,
         .tilemapLeft = 2,
-        .tilemapTop = 15,
+        .tilemapTop = 16,
         .width = 26,
         .height = 4,
         .paletteNum = 0,

@@ -818,7 +818,7 @@ static void CreateConditionMonPic(u8 id)
         sprPal.data = GetConditionMonPal(id);
         menu->monPalIndex = LoadSpritePalette(&sprPal);
         menu->monGfxTileStart = LoadSpriteSheet(&sprSheet);
-        spriteId = CreateSprite(&sprTemplate, 38, 104, 0);
+        spriteId = CreateBigSprite(&sprTemplate, 30, 104, 0);
         menu->monPicSpriteId = spriteId;
         if (spriteId == MAX_SPRITES)
         {

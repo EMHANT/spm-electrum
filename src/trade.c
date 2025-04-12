@@ -2796,7 +2796,7 @@ static void LoadTradeMonPic(u8 whichParty, u8 state)
         break;
     case 1:
         SetMultiuseSpriteTemplateToPokemon(species, pos);
-        sTradeAnim->monSpriteIds[whichParty] = CreateSprite(&gMultiuseSpriteTemplate, 120, 60, 6);
+        sTradeAnim->monSpriteIds[whichParty] = CreateBigSprite(&gMultiuseSpriteTemplate, 120, 60, 6);
         gSprites[sTradeAnim->monSpriteIds[whichParty]].invisible = TRUE;
         gSprites[sTradeAnim->monSpriteIds[whichParty]].callback = SpriteCallbackDummy;
         break;
