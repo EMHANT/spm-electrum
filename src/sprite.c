@@ -170,7 +170,7 @@ static const struct Sprite sDummySprite =
     .callback = SpriteCallbackDummy,
     .x = DISPLAY_WIDTH + 64,
     .y = DISPLAY_HEIGHT,
-    .subpriority = 0xFF
+    .subpriority = 0xFF,
     .parent = 0xFF,
     .children = {0xFF, 0xFF, 0xFF, 0xFF},
 };
@@ -361,61 +361,62 @@ void BuildOamBuffer(void)
             s32 rotSinX = -gOamMatrices[sprite->oam.matrixNum].b * xScale * xScale;
             s32 rotSinY = -gOamMatrices[sprite->oam.matrixNum].c * yScale * yScale;
             s32 rotCosY = gOamMatrices[sprite->oam.matrixNum].d * yScale * yScale;
-        }
-        if(xScale < 0 ^ yScale < 0)
-        {
-                rotSinX = -rotSinX;
-                rotSinY = -rotSinY;
-        }
-        if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
-        {
-            sprite->pos3.x = ((rotCosX * x1) + (rotSinX * y1)) >> 24;
-            sprite->pos3.y = ((rotSinY * x1) + (rotCosY * y1)) >> 24;
-        }
-        else
-        {
-            sprite->pos3.x = x1;
-            if(sprite->oam.matrixNum & ST_OAM_HFLIP) sprite->pos3.x = -x1;
-            sprite->pos3.y = y1;
-            if(sprite->oam.matrixNum & ST_OAM_VFLIP) sprite->pos3.y = -y1;
-        }
-        for(ic = 0; ic < 4; ic++)
-        {
-            if(sprite->children[ic] != 0xFF)
+        
+            if(xScale < 0 ^ yScale < 0)
             {
-                struct Sprite *childSprite = &gSprites[sprite->children[ic]];
-                childSprite->coordOffsetEnabled = sprite->coordOffsetEnabled;
-                childSprite->invisible = sprite->invisible;
-                childSprite->oam.affineMode = sprite->oam.affineMode;
-                childSprite->oam.objMode = sprite->oam.objMode;
-                childSprite->oam.mosaic = sprite->oam.mosaic;
-                childSprite->oam.bpp = sprite->oam.bpp;
-                childSprite->oam.matrixNum = sprite->oam.matrixNum;
-                childSprite->oam.priority = sprite->oam.priority;
-                childSprite->oam.paletteNum = sprite->oam.paletteNum;
-                childSprite->oam.affineParam = sprite->oam.affineParam;
-                childSprite->animBeginning = sprite->animBeginning;
-                childSprite->affineAnimBeginning = sprite->affineAnimBeginning;
-                childSprite->subpriority = sprite->subpriority;
-                childSprite->anims = sprite->anims;
-                childSprite->affineAnims = sprite->affineAnims;
-                childSprite->x = sprite->x;
-                childSprite->y = sprite->y;
-                childSprite->x2 = sprite->x2;
-                childSprite->y2 = sprite->y2;
-                x1 = (sOffsetVecTableChildren[ic + 1][0]);
-                y1 = (sOffsetVecTableChildren[ic + 1][1]);
-                if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
+                    rotSinX = -rotSinX;
+                    rotSinY = -rotSinY;
+            }
+            if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
+            {
+                sprite->x3 = ((rotCosX * x1) + (rotSinX * y1)) >> 24;
+                sprite->y3 = ((rotSinY * x1) + (rotCosY * y1)) >> 24;
+            }
+            else
+            {
+                sprite->x3 = x1;
+                if(sprite->oam.matrixNum & ST_OAM_HFLIP) sprite->x3 = -x1;
+                sprite->y3 = y1;
+                if(sprite->oam.matrixNum & ST_OAM_VFLIP) sprite->y3 = -y1;
+            }
+            for(ic = 0; ic < 4; ic++)
+            {
+                if(sprite->children[ic] != 0xFF)
                 {
-                    childSprite->x3 = ((rotCosX * x1) + (rotSinX * y1)) >> 24;
-                    childSprite->y3 = ((rotSinY * x1) + (rotCosY * y1)) >> 24;
-                }
-                else
-                {
-                    childSprite->x3 = x1;
-                    if(childSprite->oam.matrixNum & ST_OAM_HFLIP) childSprite->pos3.x = -x1;
-                    childSprite->y3 = y1;
-                    if(childSprite->oam.matrixNum & ST_OAM_VFLIP) childSprite->pos3.y = -y1;
+                    struct Sprite *childSprite = &gSprites[sprite->children[ic]];
+                    childSprite->coordOffsetEnabled = sprite->coordOffsetEnabled;
+                    childSprite->invisible = sprite->invisible;
+                    childSprite->oam.affineMode = sprite->oam.affineMode;
+                    childSprite->oam.objMode = sprite->oam.objMode;
+                    childSprite->oam.mosaic = sprite->oam.mosaic;
+                    childSprite->oam.bpp = sprite->oam.bpp;
+                    childSprite->oam.matrixNum = sprite->oam.matrixNum;
+                    childSprite->oam.priority = sprite->oam.priority;
+                    childSprite->oam.paletteNum = sprite->oam.paletteNum;
+                    childSprite->oam.affineParam = sprite->oam.affineParam;
+                    childSprite->animBeginning = sprite->animBeginning;
+                    childSprite->affineAnimBeginning = sprite->affineAnimBeginning;
+                    childSprite->subpriority = sprite->subpriority;
+                    childSprite->anims = sprite->anims;
+                    childSprite->affineAnims = sprite->affineAnims;
+                    childSprite->x = sprite->x;
+                    childSprite->y = sprite->y;
+                    childSprite->x2 = sprite->x2;
+                    childSprite->y2 = sprite->y2;
+                    x1 = (sOffsetVecTableChildren[ic + 1][0]);
+                    y1 = (sOffsetVecTableChildren[ic + 1][1]);
+                    if (sprite->oam.affineMode & ST_OAM_AFFINE_ON_MASK)
+                    {
+                        childSprite->x3 = ((rotCosX * x1) + (rotSinX * y1)) >> 24;
+                        childSprite->y3 = ((rotSinY * x1) + (rotCosY * y1)) >> 24;
+                    }
+                    else
+                    {
+                        childSprite->x3 = x1;
+                        if(childSprite->oam.matrixNum & ST_OAM_HFLIP) childSprite->x3 = -x1;
+                        childSprite->y3 = y1;
+                        if(childSprite->oam.matrixNum & ST_OAM_VFLIP) childSprite->y3 = -y1;
+                    }
                 }
             }
         }
