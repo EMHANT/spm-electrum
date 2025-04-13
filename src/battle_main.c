@@ -2695,7 +2695,7 @@ static void SpriteCB_AnimFaintOpponent(struct Sprite *sprite)
             for (i = 0; i < 0x100; i++)
                 *(dst++) = 0;
 
-            dst = (u8 *)gMonSpritesGfxPtr->sprites[GetBattlerPosition(sprite->sBattler)] + 0xA00 + (sprite->data[3] << 6);
+            dst = (u8 *)gMonSpritesGfxPtr->spritesGfx[GetBattlerPosition(sprite->sBattler)] + 0xA00 + (sprite->data[3] << 6);
 
             for (i = 0; i < 0x40; i++)
                 *(dst++) = 0;
@@ -2863,7 +2863,7 @@ void EndBounceEffect(u8 battler, u8 which)
 static void SpriteCB_BounceEffect(struct Sprite *sprite)
 {
     u8 bouncerSpriteId = sprite->sBouncerSpriteId;
-    s32 index = sprite->sSinIndex;
+    // s32 index = sprite->sSinIndex;
     // s32 y = Sin(index, sprite->sAmplitude) + sprite->sAmplitude; // pre-80x80
     s32 y = sprite->sSinIndex >> 7;
 
