@@ -733,7 +733,7 @@ u32 CreateSpriteRevAt(u32 index, const struct SpriteTemplate *template, s16 x, s
     return index;
 }
 
-u32 CreateBigSpriteAt(u32 index, const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
+u32 CreateBigSpriteAt(u32 index, const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority)
 {
     u8 ic;
     struct Sprite *spriteA = &gSprites[index];
