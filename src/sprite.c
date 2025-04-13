@@ -556,7 +556,7 @@ u32 CreateSpriteRev(const struct SpriteTemplate *template, s16 x, s16 y, u32 sub
 u32 CreateBigSprite(const struct SpriteTemplate *template, s16 x, s16 y, u32 subpriority)
 {
     u32 i;
-    u32 ret;
+    u32 ret = 0;
 
     for (i = 0; i < MAX_SPRITES; i++)
     {
