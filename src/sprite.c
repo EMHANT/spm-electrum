@@ -362,7 +362,7 @@ void BuildOamBuffer(void)
             s32 rotSinY = -gOamMatrices[sprite->oam.matrixNum].c * yScale * yScale;
             s32 rotCosY = gOamMatrices[sprite->oam.matrixNum].d * yScale * yScale;
         
-            if(xScale < 0 ^ yScale < 0)
+            if((xScale < 0) ^ (yScale < 0))
             {
                     rotSinX = -rotSinX;
                     rotSinY = -rotSinY;
@@ -733,7 +733,7 @@ u32 CreateSpriteRevAt(u32 index, const struct SpriteTemplate *template, s16 x, s
     return index;
 }
 
-u8 CreateBigSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
+u32 CreateBigSpriteAt(u32 index, const struct SpriteTemplate *template, s16 x, s16 y, u8 subpriority)
 {
     u8 ic;
     struct Sprite *spriteA = &gSprites[index];
