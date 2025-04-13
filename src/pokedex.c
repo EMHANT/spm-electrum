@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_main.h"
+#include "battle_gfx_sfx_util.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
