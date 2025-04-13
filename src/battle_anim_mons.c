@@ -1183,6 +1183,7 @@ void SetSpriteRotScale(u8 spriteId, s16 xScale, s16 yScale, u16 rotation)
     int i;
     struct OamMatrix matrix;
 
+    i = gSprites[spriteId].oam.matrixNum;
     rawMatrix[i].xScale = xScale;
     rawMatrix[i].yScale = yScale;
     rawMatrix[i].rotation = rotation;
@@ -1258,6 +1259,7 @@ void TrySetSpriteRotScale(struct Sprite *sprite, bool8 recalcCenterVector, s16 x
         sprite->affineAnimPaused = TRUE;
         if (recalcCenterVector)
             CalcCenterToCornerVec(sprite, sprite->oam.shape, sprite->oam.size, sprite->oam.affineMode);
+        i = sprite->oam.matrixNum;
         rawMatrix[i].xScale = xScale;
         rawMatrix[i].yScale = yScale;
         rawMatrix[i].rotation = rotation;
