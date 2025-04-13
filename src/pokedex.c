@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle_main.h"
 #include "battle_gfx_sfx_util.h"
+#include "battle_util2.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -3837,8 +3838,8 @@ static void Task_LoadSizeScreen(u8 taskId)
         gSprites[spriteId].oam.priority = 0;
         gSprites[spriteId].y2 = GetTrainerOffsetFromNationalDexNumber(sPokedexListItem->dexNum);
         SetOamMatrix(1, GetTrainerScaleFromNationalDexNumber(sPokedexListItem->dexNum), 0, 0, GetTrainerScaleFromNationalDexNumber(sPokedexListItem->dexNum));
-        rawMatrix[1].xScale = gPokedexEntries[sPokedexListItem->dexNum].trainerScale;
-        rawMatrix[1].yScale = gPokedexEntries[sPokedexListItem->dexNum].trainerScale;
+        rawMatrix[1].xScale = GetTrainerScaleFromNationalDexNumber(sPokedexListItem->dexNum);
+        rawMatrix[1].yScale = GetTrainerScaleFromNationalDexNumber(sPokedexListItem->dexNum);
         LoadPalette(sSizeScreenSilhouette_Pal, OBJ_PLTT_ID2(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
         gTasks[taskId].tTrainerSpriteId = spriteId;
         gMain.state++;
@@ -3850,8 +3851,8 @@ static void Task_LoadSizeScreen(u8 taskId)
         gSprites[spriteId].oam.priority = 0;
         gSprites[spriteId].y2 = GetPokemonOffsetFromNationalDexNumber(sPokedexListItem->dexNum);
         SetOamMatrix(2, GetPokemonScaleFromNationalDexNumber(sPokedexListItem->dexNum), 0, 0, GetPokemonScaleFromNationalDexNumber(sPokedexListItem->dexNum));
-        rawMatrix[2].xScale = gPokedexEntries[sPokedexListItem->dexNum].pokemonScale;
-        rawMatrix[2].yScale = gPokedexEntries[sPokedexListItem->dexNum].pokemonScale;
+        rawMatrix[2].xScale = GetPokemonScaleFromNationalDexNumber(sPokedexListItem->dexNum);
+        rawMatrix[2].yScale = GetPokemonScaleFromNationalDexNumber(sPokedexListItem->dexNum);
         LoadPalette(sSizeScreenSilhouette_Pal, OBJ_PLTT_ID2(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
         gTasks[taskId].tMonSpriteId = spriteId;
         CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
