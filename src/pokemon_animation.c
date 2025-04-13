@@ -580,11 +580,11 @@ static void SetAffineData(struct Sprite *sprite, s16 xScale, s16 yScale, u16 rot
     // struct ObjAffineSrcData affineSrcData;
     struct OamMatrix dest;
 
+    matrixNum = sprite->oam.matrixNum;
+    
     rawMatrix[matrixNum].xScale = xScale;
     rawMatrix[matrixNum].yScale = yScale;
     rawMatrix[matrixNum].rotation = rotation;
-
-    matrixNum = sprite->oam.matrixNum;
 
     ObjAffineSet(&rawMatrix[matrixNum], &dest, 1, 2);
     gOamMatrices[matrixNum].a = dest.a;
