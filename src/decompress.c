@@ -68,7 +68,7 @@ u32 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
     return ret;
 }
 
-u16 LoadCompressedSpriteSheetRev(const struct CompressedSpriteSheet *src)
+u32 LoadCompressedSpriteSheetRev(const struct CompressedSpriteSheet *src)
 {
     void *buffer = malloc_and_decompress(src->data, NULL);
     u32 ret = DoLoadCompressedSpriteSheetRev(src, buffer);
