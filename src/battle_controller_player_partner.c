@@ -299,19 +299,19 @@ static void PlayerPartnerHandleDrawTrainerPic(u32 battler)
     {
         trainerPicId = gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic;
         xPos = 90;
-        yPos = (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80;
+        yPos = (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 84;
     }
     else if (IsAiVsAiBattle())
     {
         trainerPicId = GetTrainerPicFromId(gPartnerTrainerId);
         xPos = 60;
-        yPos = 80;
+        yPos = 84;
     }
     else
     {
         trainerPicId = GetFrontierTrainerFrontSpriteId(gPartnerTrainerId);
         xPos = 32;
-        yPos = 80;
+        yPos = 84;
     }
 
     // Use back pic only if the partner Steven or is custom.

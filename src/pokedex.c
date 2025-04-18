@@ -4070,7 +4070,7 @@ static void Task_DisplayCaughtMonDexPage(u8 taskId)
         break;
     case 4:
         FreeMonSpritesGfx();
-        FreeBattleResources();
+        // FreeBattleResources();
         FreeBattleSpritesData();
         spriteId = CreateMonPicSprite(species, FALSE, ((u16)gTasks[taskId].tPersonalityHi << 16) | (u16)gTasks[taskId].tPersonalityLo, TRUE, MON_PAGE_X, MON_PAGE_Y, 0, TAG_NONE);
         gSprites[spriteId].oam.priority = 0;

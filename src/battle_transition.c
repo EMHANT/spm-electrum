@@ -2517,10 +2517,10 @@ static void HBlankCB_Mugshots(void)
 
 static void Mugshots_CreateTrainerPics(struct Task *task)
 {
-    struct Sprite *opponentSprite, *playerSprite;
+    // struct Sprite *opponentSprite, *playerSprite;
 
     u8 trainerPicId = GetTrainerPicFromId(TRAINER_BATTLE_PARAM.opponentA);
-    s16 opponentRotationScales = 0;
+    // s16 opponentRotationScales = 0;
 
     gReservedSpritePaletteCount = 10;
     task->tOpponentSpriteId = CreateTrainerSprite(trainerPicId,
@@ -2534,8 +2534,8 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
                                                 98,
                                                 0, NULL);
 
-    opponentSprite = &gSprites[task->tOpponentSpriteId];
-    playerSprite = &gSprites[task->tPlayerSpriteId];
+    // opponentSprite = &gSprites[task->tOpponentSpriteId];
+    // playerSprite = &gSprites[task->tPlayerSpriteId];
 
     //The code below does the 2x zoom for mugshots. This doesn't play well with the 80x80, so we use the non-zoomed full pics
     // opponentSprite->callback = SpriteCB_MugshotTrainerPic;

@@ -172,7 +172,7 @@ u8 GetBattlerYDelta(u8 battlerId, u16 species)
     }
 
     if (GetBattlerSide(battlerId) == B_SIDE_PLAYER || IsContest())
-        ret = gSpeciesInfo[species].backPicYOffset;
+        ret = gSpeciesInfo[species].backPicYOffset + 4;
     else
         ret = gSpeciesInfo[species].frontPicYOffset;
     return ret;
@@ -1858,7 +1858,7 @@ static u16 GetBattlerYDeltaFromSpriteId(u8 spriteId)
             if (IsContest())
             {
                 species = gContestResources->moveAnim->species;
-                return gSpeciesInfo[species].backPicYOffset;
+                return gSpeciesInfo[species].backPicYOffset + 4;
             }
             else
             {
@@ -1869,7 +1869,7 @@ static u16 GetBattlerYDeltaFromSpriteId(u8 spriteId)
                     species = spriteInfo[battlerId].transformSpecies;
 
                 if (GetBattlerSide(i) == B_SIDE_PLAYER)
-                    return gSpeciesInfo[species].backPicYOffset;
+                    return gSpeciesInfo[species].backPicYOffset + 4;
                 else
                     return gSpeciesInfo[species].frontPicYOffset;
             }
@@ -2051,7 +2051,7 @@ u8 CreateAdditionalMonSpriteForMoveAnim(u16 species, bool8 isBackpic, u8 id, s16
     if (!isBackpic)
         spriteId = CreateSprite(&sSpriteTemplates_MoveEffectMons[id], x, y + gSpeciesInfo[species].frontPicYOffset, subpriority);
     else
-        spriteId = CreateSprite(&sSpriteTemplates_MoveEffectMons[id], x, y + gSpeciesInfo[species].backPicYOffset, subpriority);
+        spriteId = CreateSprite(&sSpriteTemplates_MoveEffectMons[id], x, y + gSpeciesInfo[species].backPicYOffset + 4, subpriority);
 
     if (IsContest())
     {
